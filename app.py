@@ -2,6 +2,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import redirect, url_for, abort
 
 app = Flask(__name__)
 
@@ -15,14 +16,24 @@ def index(title=None):
 
 @app.route('/form',methods=['GET','POST'])
 def process_form():
-	nome=request.form['nome']
-	idade=request.form['idade']
-	sexo=request.form['sexo']
-	return render_template('tabulado.html',nome=nome,idade=idade,sexo=sexo)
+	if request.method == 'POST':
+		try:
+			nome=request.form['nome']
+			idade=request.form['idade']
+			sexo=request.form['sexo']
+
+			return render_template('tabulado.html',nome=nome,idade=idade,sexo=sexo)
+
+		except:
+			app.logger.error('[ERROR] Alguem fez caca...')
+			return "Bad, bad boy..."
+
+	else:
+		abort(404)
 
 @app.errorhandler(404)
 def error_pager(error):
-	return render_template('404.html')
+	return render_template('404.html'), 404
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0',port=int("80"))
+	app.run(host='0.0.0.0',port=int("80"),debug=True)
