@@ -1,0 +1,20 @@
+<html>
+{% if title %}
+	<title>{{ title }}</title>
+{% else %}
+	<title>Sem titulo</title>
+{% endif %}
+<body>
+<center><h1>{{ msg }}</h1></center>
+</br>
+<form method="post" action="http://192.168.1.41/form">
+	<label for="nome">Nome: </label>
+	<input type="text" name="nome"/> </br>
+	<label for="idade">Idade: </label>
+	<input type="text" name="idade"/> </br>
+	<label for="sexo">Sexo: </label>
+	<input type="text" name="sexo"/>
+	<input type="submit" />
+</form>
+</body>
+</html>
